@@ -37,7 +37,9 @@ RUN apk add --no-cache \
     rust \
     rust-stdlib \
     musl-dev \
-    gcompat
+    gcompat \
+    # For build minimisation
+    upx
 
 # Install latest Go manually (apk version may be outdated)
 ENV GO_VERSION=1.21.0
@@ -54,9 +56,6 @@ ENV CC=clang \
     CXX=clang++ \
     RUSTFLAGS="-C linker=clang -C link-arg=-fuse-ld=lld" \
     CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_RUSTFLAGS="-C linker=clang -C link-arg=-fuse-ld=lld"
-
-# Symlink lld
-RUN ln -s /usr/bin/lld /usr/bin/ld.lld
 
 WORKDIR /workspace
 CMD ["/bin/sh"]
